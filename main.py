@@ -16,15 +16,15 @@ sequences_masked_number, sequences_number, masked_positions = load_seq_mask(file
 
 pars = load_inputs("pars.txt")
 
-index_val = int(pars['n'] - pars['n'] * pars['validation_rate'])
+index_val = int(len(sequences_number) - len(sequences_number) * pars['validation_rate'])
 
 
-train_dataset = CustomDataset(
+val_dataset = CustomDataset(
     input_ids=sequences_masked_number[index_val:],
     labels=sequences_number[index_val:],
 )
 
-val_dataset = CustomDataset(
+train_dataset = CustomDataset(
     input_ids=sequences_masked_number[:index_val],
     labels=sequences_number[:index_val],
 )
