@@ -10,9 +10,9 @@ To start the training process, run:
 
 ## Data Format
 
-- SequencesMasked.txt
-    Column 1: Original amino acid sequences.
-    Column 2: Sequences with 15% of amino acids masked.
-    Column 3: Information about masked positions and original amino acids.
-- sequences_t=127.dat
+- SequencesMasked.txt:
+    - Column 1: Original amino acid sequences.
+    - Column 2: Sequences with 15% of amino acids masked.
+    - Column 3: Information about masked positions and original amino acids.
+- sequences_t=127.dat: 
     Contains original sequences from simulations based on real contact maps.
