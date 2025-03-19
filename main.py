@@ -16,15 +16,15 @@ sequences_masked_number, sequences_number, masked_positions = load_seq_mask(file
 
 pars = load_inputs("pars.txt")
 
-index_val = int(len(sequences_masked_number[0]) - len(sequences_masked_number[0]) * pars['validation_rate'])
+index_val = int(pars['n'] - pars['n'] * pars['validation_rate'])
 
 
-val_dataset = CustomDataset(
+train_dataset = CustomDataset(
     input_ids=sequences_masked_number[index_val:],
     labels=sequences_number[index_val:],
 )
 
-train_dataset = CustomDataset(
+val_dataset = CustomDataset(
     input_ids=sequences_masked_number[:index_val],
     labels=sequences_number[:index_val],
 )
@@ -55,7 +55,6 @@ while accuracy < 0.95:
     trainer.train(epoch)
     epoch = epoch + 1
     accuracy = trainer.accuracy_train
-    print(accuracy)
 
     if epoch % step == 0:
         torch.save(model, f"out_train/{pars['file_model']}_w={pars['warmup_steps']}_bs={pars['batch_size']}.pt")
