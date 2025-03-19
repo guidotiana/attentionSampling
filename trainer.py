@@ -76,6 +76,7 @@ class TransformerTrainer_masked:
         self.results = pd.DataFrame(columns=['epoch', 'train_loss', 'train_accuracy', 'val_loss', 'val_accuracy', 'lr'])
 
         print("Total Parameters:", sum(p.numel() for p in self.model.parameters()))
+        print("\n")
 
     def validate(self, epoch):
         if self.val_data is not None:
@@ -117,7 +118,6 @@ class TransformerTrainer_masked:
             bar_format="{l_bar}{r_bar}"
         )
 
-        print(f"Starting epoch {epoch} with learning rate {self.scheduler.get_lr()}")
 
         for i, batch in data_iter:
             input_ids = batch["input_ids"].to(self.device)
@@ -142,16 +142,18 @@ class TransformerTrainer_masked:
             post_fix = {
                 "epoch": epoch,
                 "iter": i,
-                "avg_loss": avg_loss / (i + 1),
-                "avg_accu": avg_accuracy / (i + 1),
+                "loss": avg_loss / (i + 1),
+                "accu": avg_accuracy / (i + 1),
             }
 
             if i % self.log_freq == 0:
                 data_iter.write(str(post_fix))
 
         print(
-            f"EP{epoch}, {mode}: avg_loss={avg_loss / len(data_iter)}, lr = {self.scheduler.get_lr()}, accuracy = {avg_accuracy / len(data_iter)}"
+            f"EP{epoch}, {mode}: avg loss={avg_loss / len(data_iter)}, lr = {self.scheduler.get_lr()}, avg accuracy = {avg_accuracy / len(data_iter)}\n"
         )
+
+
         if train: 
             self.accuracy_train = avg_accuracy / len(data_iter)
         else: 
